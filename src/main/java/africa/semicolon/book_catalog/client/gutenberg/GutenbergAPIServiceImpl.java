@@ -31,7 +31,7 @@ public class GutenbergAPIServiceImpl implements GutenbergAPIService {
         return gutenbergRestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/books")
-                        .queryParam("author", authorName)
+                        .queryParam("authors", authorName)
                         .build())
                 .retrieve()
                 .body(new ParameterizedTypeReference<GutenbergResponsePage<GutenbergBook>>() {});
@@ -42,7 +42,7 @@ public class GutenbergAPIServiceImpl implements GutenbergAPIService {
         return gutenbergRestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/books")
-                        .queryParam("subject", categoryName)
+                        .queryParam("subjects", categoryName)
                         .build())
                 .retrieve()
                 .body(new ParameterizedTypeReference<GutenbergResponsePage<GutenbergBook>>() {});
