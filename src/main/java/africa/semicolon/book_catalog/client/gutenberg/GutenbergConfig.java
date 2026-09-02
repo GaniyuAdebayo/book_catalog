@@ -1,6 +1,7 @@
 package africa.semicolon.book_catalog.client.gutenberg;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -18,5 +19,10 @@ public class GutenbergConfig {
                 .defaultHeader("X-RapidAPI-Key", properties.getApiKey())
                 .defaultHeader("X-RapidAPI-Host",  properties.getHost())
                 .build();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

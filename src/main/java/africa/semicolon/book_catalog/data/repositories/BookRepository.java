@@ -14,4 +14,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAllByCategoriesContaining(String category);
     List<Book> findAllByAuthorsContaining(String author);
 
+    @Query("SELECT b.categories FROM Book b")
+    List<List<String>> getAllCategories();
+
+
 }

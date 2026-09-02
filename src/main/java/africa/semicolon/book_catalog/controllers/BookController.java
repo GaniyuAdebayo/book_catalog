@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping ("/api/books")
@@ -23,16 +24,16 @@ public class BookController {
     private final BookService bookService;
     ModelMapper modelMapper = new ModelMapper();
 
-    @GetMapping("/category/{category}")
-    public ResponseEntity<List<BookDto>> getBooksByCategory(@PathVariable String category) {
-        List<Book> books = bookService.getBooksByCategory(category);
+    @GetMapping("/category/{category}/requestedBy={requestedBy}")
+    public ResponseEntity<List<BookDto>> getBooksByCategory(@PathVariable String requestedBy, @PathVariable String category) {
+        List<Book> books = bookService.getBooksByCategory(requestedBy, category);
         Type type = new TypeToken<List<BookDto>>(){}.getType();
         return ResponseEntity.ok(modelMapper.map(books, type));
     }
 
-    @GetMapping("/author/{authorName}")
-    public ResponseEntity<List<BookDto>> getBooksByAuthor(@PathVariable String authorName) {
-        List<Book> books = bookService.getBooksByAuthor(authorName);
+    @GetMapping("/author/{authorName}/requestedBy={requestedBy}")
+    public ResponseEntity<List<BookDto>> getBooksByAuthor(@PathVariable String authorName, @PathVariable String requestedBy) {
+        List<Book> books = bookService.getBooksByAuthor(authorName,  requestedBy);
         Type type = new TypeToken<List<BookDto>>(){}.getType();
         return ResponseEntity.ok(modelMapper.map(books, type));
     }
@@ -48,6 +49,11 @@ public class BookController {
     public ResponseEntity<String> syncBooks(@RequestParam("q") String query) {
         bookService.syncBooks(query);
         return ResponseEntity.ok("Sync successfully");
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<Set<String>> getAllCategories() {
+        return ResponseEntity.ok(bookService.getAllDistinctCategories());
     }
 
 }
